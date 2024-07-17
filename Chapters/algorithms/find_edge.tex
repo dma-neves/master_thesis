@@ -1,0 +1,44 @@
+\begin{algorithm}[t]
+    \small
+    \SetAlgoLined
+    \SetKwData{graph}{graph}
+    \SetKwData{src}{src}
+    \SetKwData{dst}{dst}
+    \SetKwData{blockidx}{block\_idx}
+    \SetKwData{offset}{offset}
+    \SetKwData{found}{found}
+    \SetKwData{blocks}{blocks}
+    \SetKwData{blocklinks}{block\_links}
+    \SetKwData{edge}{e}
+    \SetKwData{size}{size}
+    \SetKwFunction{break}{break}
+
+    \KwIn{idx\_t \src, idx\_t \dst}
+    \KwOut{idx\_t, idx\_t, bool}
+
+    \BlankLine
+    \blockidx $\leftarrow$ \graph.vertices[\src].adjacency\_list\;
+    \offset $\leftarrow 0$\;
+    \found $\leftarrow$ false\;
+
+    \While{\blockidx $\neq -1 \land \neg$ \found} {
+
+        \While{\offset $<$ \graph.block\_size $\land \neg$ \found} {
+            \edge $\leftarrow$ \blocks[\blockidx][\offset]\;
+            \If{\edge.dst $==$ \dst}{
+                \found $\leftarrow$ true\;
+            }
+            \Else {
+                \offset $\leftarrow$ \offset $+1$\;
+            }
+        }
+        \If{$\neg$ \found}{
+            \blockidx $\leftarrow$ \blocklinks[\blockidx]\;
+        }
+    }
+    
+    \KwRet \blockidx, \offset, \found\;
+
+    \caption{Find Edge}
+    \label{alg:find_edge}
+\end{algorithm}

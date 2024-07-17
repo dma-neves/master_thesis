@@ -1,0 +1,97 @@
+
+########################## prep ####################################
+
+
+- In section 2.4.3 the distributed subsection doesn't add much useful information regarding graph processing. The descriptions are too short and shallow for them to  add much value to the conversation. Maybe, instead of giving a brief explanation of each framework, talk more generally about the techniques, data structures and programming models used in these type of frameworks and highlight any novel ideas.
+- Add short performance info/comparison for GPU graphs.
+- Possibly add more information about advantages of each framework.
+- Add EGraph.
+- Add information about CPU/GPU execution.
+- Update table width columns Directed and Weighted.
+
+
+
+########################## marrow ####################################
+
+- explain marrow functions better: abstraction of marrow::map -> explain that marrow::map can
+perform any operation on an arbitrary number of collections. ( In turn, map skeletons may be implicitly built by overloading C++ operators. Whenever an operator is applied to a marrow container, a map skeleton is built)
+- Explain what kernels are and talk about marrow in terms of skeletons
+- make kernel and AST generation from templates more clear. When we use a marrow skeleton to perform an operation, it returns an expression (template expressions), using the auto keyword we don't have to worry about getting the type right. When we assign such an expression to a collection, it triggers the execution of the expressoin. AST -> Template Expression can be composed.
+- Kernels are executed and scheduled by the scheduler, dependency manager, and jobs/tasks manager, while the backend is in charge of GPU and CPU memory allocations, de-allocations and transfers.
+- smart data containers: 
+- abstraction over events -> cuda backend -> CUDA events
+
+Usefull paragraph:
+Systems comprising a CPU and at least a GPU, commonly have disjoint physical memory
+address spaces leading to complex memory management of the whole system. The burden
+of implicitly managing host and device memory spaces, as well as dealing with memory
+transfers between the two, generally falls on the developer. Furthermore, there are a
+number of optimizations regarding overlapping computation with memory transfers, re-
+ducing the number of memory transfers required by an application, and many more,
+which are time-consuming and require expertise by the programmer. Marrow imple-
+ments smart data containers, which seamlessly provide a unified memory address space
+for the developer. The framework exposes a single data container that can be accessed
+by both host and device, thus eliminating the need to create separate containers for CPU
+and GPU accesses as well as the need to implicitly write code to transfer data between
+the two. 
+
+
+###################### comentarios prof. cecilia #######################
+
+✅ Colocar as figuras das slotted pages e faimgraph no documento.
+
+✅ Dizer mais cedo o que é que distingue o trabalho do anterior.
+
+✅ Não apresentar o trabalho como sendo incremental. Tirar o nome marrow-graph 1
+
+Como é que se define uma função custom?
+
+Clarificar melhor o que corre em cada lado. E como a sintaxe distingue isto
+
+✅ large scale computer systems --> computing systems
+
+✅ gralhas: entirely com i
+
+✅ Listagem 1: explicar o round-up
+
+✅ explicar  <<<...., ....>>> é a sintaxe de especificação da grelha
+
+figura dos banks (confirmar que ainda existem banks e que ainda são um problema)
+
+o que é tensor?
+
+o que são eventos em marrow?
+
+de onde é que as características da página 13? explicar melhor
+
+(double check) ✅ vector graph - corrigir 
+
+✅ sub-graph-centric - clarificar "each vertex ...."
+
+✅ fig. 2.12 taken from [...]
+
+✅ segmented intersection - clarificar 
+
+
+
+
+
+
+
+
+
+
+
+
+################ Dynamic gunrock
+
+faimGraph is the state of the art
+in dynamic GPU graph data structures. Hornet is an actively
+maintained GPU data structure for sparse graphs and matrices.
+In our tests, faimGraph’s page size is configured to be 128
+bytes to match our slab page size. Our tests do not require
+that either faimGraph or Hornet maintain a sorted adjacency
+list. All of our measured performance timings for all libraries
+only include the time to perform the operation and do not
+include the time required to transfer memory between CPU
+and GPU. 

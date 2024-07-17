@@ -1,0 +1,29 @@
+%!TEX root = ../template.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% abstrac-pt.tex
+%% NOVA thesis document file
+%%
+%% Abstract in Portuguese
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\typeout{NT FILE abstrac-pt.tex}%
+
+Actualmente, grafos podem ser encontrados numa grande parte dos sistemas informáticos de grande escala. Com o rápido avanço da tecnologia e das aplicações, o tamanho destes grafos e a complexidade das computações efectuados sobre estes, estão a aumentar constantemente. Isto tem levado à necessidade de desenvolver e investigar o processamento paralelo de grafos, de modo a ultrapassar os limites computacionais das soluções baseadas em processadores únicos. Na frente desta investigação está o processamento de grafos acelerado por \gls{GPU}, uma vez que as capacidades de paralelização massiva da \gls{GPU} permitem execuções extremamente eficiente de algoritmos em grafos de grandes dimensões. 
+
+Nos últimos anos, várias \textit{frameworks} de processamento de grafos acelerados por \gls{GPU} têm surgido e começado a ser utilizadas na indústria, no entanto, a maioria suportam apenas grafos estáticos, o que significa que sempre que o grafo é atualizado, este é retransmitido por completo para a \gls{GPU} para processamento posterior. No cenário atual, em que muitos grafos de grandes dimensões estão em constante evolução, como por exemplo as redes sociais e financeiras, isto torna-se um problema. Já surgiram algumas \textit{frameworks} de processamento de grafos dinâmicos acelerados por \gls{GPU}, no entanto são poucas e a sua usabilidade ainda é limitada, tornando esta uma área de investigação aberta e relevante.
+
+Nesta dissertação apresentamos o Marrow-Graph, uma biblioteca de processamento de grafos dinâmicos acelerada por \gls{GPU}, desenvolvida com a \textit{framework} Marrow. A biblioteca suporta actualizações eficientes sobre grafos, providencia um modelo de programação simples mas expressivo, e inclui multiplos algoritmos comuns de processamento de grafos. Para tal, o grafo é armazenado tanto no \textit{host} como no \textit{device} utilizando as coleções do Marrow, o que permite executar algoritmos de forma eficiente no \textit{device}, e efetuar atualizações \textit{lazy} sobre o grafo no \textit{host}. %O Marrow garante que a sincronização da estrutura de dados (que representa o grafo) com o dispositivo seja adiada até que seja estritamente necessária, reduzindo drasticamente a quantidade de comunicação \textit{host-device}.  
+Além disso, demonstramos como a nossa solução oferece melhor usabilidade e concisão em comparação com os concorrentes, e apresenta um desempenho promissor. O Marrow-Graph supera o FaimGraph e o Hornet em alguns algoritmos, atinge \textit{speedups} até x260 em comparação com as soluções do estado da arte baseadas em \gls{CPU}, e permite inserções em tempo real de \textit{edges} mais rápidas usando \textit{update batches} pequenos a médios.
+
+% Palavras-chave do resumo em Português
+% \begin{keywords}
+% Palavra-chave 1, Palavra-chave 2, Palavra-chave 3, Palavra-chave 4
+% \end{keywords}
+\keywords{
+  Dynamic Graph\and
+  Graph Analytics\and
+  GPU\and
+  Marrow\and
+  CUDA
+}
+% to add an extra black line

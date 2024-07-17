@@ -1,0 +1,48 @@
+
+\begin{algorithm}[t]
+    \small
+    \SetAlgoLined
+    \SetKwData{graph}{graph}
+    \SetKwData{frontier}{frontier}
+    \SetKwData{compute}{compute}
+    \SetKwData{compargs}{comp\_args}
+    \SetKwData{degrees}{degrees}
+    \SetKwData{degreesscan}{degrees\_scan}
+    \SetKwData{uniquefrontier}{unique\_frontier}
+    \SetKwData{advancedfrontier}{advanced\_frontier}
+    \SetKwData{uniqueflags}{unique\_flags}
+    \SetKwData{advancedfrontiersize}{advanced\_frontier\_size}
+    \SetKwData{frontiersize}{frontier\_size}
+    \SetKwFunction{graphbalgetdegrees}{graph\_bal\_get\_degrees}
+    \SetKwFunction{marrowscansum}{marrow::scan<plus>}
+    \SetKwFunction{marrowfilter}{marrow::filter}
+    \SetKwFunction{graphbaladvance}{graph\_bal\_advance}
+    \SetKwFunction{size}{size}
+    \SetKwFunction{unwrapresults}{unwrap}
+    \SetKwFunction{dirtyresults}{dirty\_results}
+
+    \KwIn{
+    vector<idx\_t> \frontier, 
+    compute\_fun \compute, 
+    compute\_args... \compargs
+    }
+    \KwOut{vector<idx\_t>}
+
+    \BlankLine
+
+    \degrees $\leftarrow$ \graphbalgetdegrees(\frontier, \graph.vertices)\;
+    \degreesscan $\leftarrow$ \marrowscansum(\degrees)\;
+    \advancedfrontiersize $\leftarrow$ \degreesscan[\size(\degreesscan)]\;
+    \frontiersize $\leftarrow$ \size(\frontier)\;
+    \BlankLine
+
+    \advancedfrontier, \uniqueflags $\leftarrow$ \graphbaladvance(\frontier, \degreesscan, \graph.vertices, \graph.blocks, \graph.block\_links, \frontiersize, \advancedfrontiersize, \compute, \unwrapresults(\compargs)...)\;
+
+    \uniquefrontier $\leftarrow$ \marrowfilter(\advancedfrontier, \uniqueflags)\;
+    \dirtyresults(\compargs)...\;
+
+    \KwRet \uniquefrontier\;
+
+    \caption{Advance}
+    \label{alg:advance}
+\end{algorithm}

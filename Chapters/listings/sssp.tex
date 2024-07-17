@@ -1,0 +1,35 @@
+\begin{listing}
+\begin{minted}
+[
+frame=lines,
+linenos,
+fontsize=\scriptsize
+]
+{cpp}
+vector<float> sssp(graph_bal<vertex_attributes, edge_attributes> &graph, idx_t source) {
+
+    auto nvertex = graph.get_number_of_vertex();
+    vector<float> distances(nvertex);
+    distances.fill_on_device(dist_fill(source));
+    vector<int> visited(nvertex);
+    visited.fill_on_device(0);
+    vector<int> revisit(nvertex);
+    visited.fill_on_device(0);
+
+    shortest_path<vertex_attributes, edge_attributes> sp;
+    remove_completed_paths<vertex_attributes> rm;
+    vector<idx_t> frontier;
+    frontier.push_back(source);
+
+    while (frontier.size() != 0) {
+        vector<int> advanced_frontier = graph.advance(frontier, sp, result(distances), visited, revisit);
+        vector<int> filtered_frontier = graph.filter(advanced_frontier, rm, visited, revisit);
+        frontier = filtered_frontier;
+    }
+    return distances;
+}
+\end{minted}
+\center
+\caption{SSSP function.}
+\label{lst:sssp_function}
+\end{listing}

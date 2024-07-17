@@ -1,0 +1,51 @@
+
+\begin{algorithm}[t]
+    \small
+    \SetAlgoLined
+    \SetKwData{graph}{graph}
+    \SetKwData{srcvertex}{src\_vertex}
+    \SetKwData{prevblockidx}{prev\_block\_idx}
+    \SetKwData{newblockidx}{new\_block\_idx}
+    \SetKwData{deletedblocks}{deleted\_blocks}
+    \SetKwData{blocks}{blocks}
+    \SetKwData{blocklinks}{block\_links}
+    \SetKwData{blocklinksreversed}{block\_links\_reversed}
+    
+    \SetKwFunction{isempty}{is\_empty}
+    \SetKwFunction{pushback}{push\_back}
+    \SetKwFunction{front}{front}
+    \SetKwFunction{pop}{pop}
+    \SetKwFunction{size}{size}
+    \SetKwFunction{emplaceback}{emplace\_back}
+    \SetKwFunction{getnewblock}{get\_new\_block}
+
+    \KwIn{Vertex \srcvertex, idx\_t \prevblockidx}
+    \KwOut{idx\_t}
+
+    \BlankLine
+    \newblockidx $\leftarrow$ \graph.blocks.\size\;
+    \If{ $\neg$ \isempty(\graph.deleted\_blocks)}{
+        \newblockidx $\leftarrow$ \pop(\graph.deleted\_blocks)\;
+        \graph.block\_links[\newblockidx] $\leftarrow$ -1)\;
+        \graph.block\_links\_reversed[\newblockidx] $\leftarrow$ \prevblockidx\;
+    }
+    \Else{
+        \pushback(\graph.blocks, \_)\;
+        \pushback(\graph.block\_links, -1)\;
+        \pushback(\graph.block\_links\_reversed, \prevblockidx)\;
+    }
+
+    \BlankLine
+    \If{\srcvertex.degree $==$ 0}{
+        \srcvertex.adjacency\_list $\leftarrow$ \newblockidx\;
+    }
+    \Else{
+        \graph.block\_links[\prevblockidx] $\leftarrow$ \newblockidx\;
+    }
+
+    \srcvertex.adjacency\_list\_end $\leftarrow$ \newblockidx\;
+    \KwRet \newblockidx\;
+
+    \caption{Get New Block}
+    \label{alg:new_block}
+\end{algorithm}

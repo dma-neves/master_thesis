@@ -1,0 +1,33 @@
+\begin{algorithm}[t]
+    \small
+    \SetAlgoLined
+    \SetKwData{graph}{graph}
+    \SetKwData{idx}{idx}
+    \SetKwData{blockidx}{block\_idx}
+    \SetKwData{vertices}{vertices}
+    \SetKwData{deletedvertices}{deleted\_vertices}
+    \SetKwData{deletedblocks}{deleted\_blocks}
+    \SetKwData{blocklinksreversed}{block\_links\_reversed}
+    \SetKwData{prevblockidx}{prev\_block\_idx}
+    \SetKwData{push}{push}
+    \SetKwData{pop}{pop}
+    \SetKwData{size}{size}
+
+    \KwIn{idx\_t \idx}
+
+    \BlankLine
+    \push(\graph.deleted\_vertices, \idx)\;
+    \blockidx $\leftarrow$ \vertices[\idx].adjacency\_list\;
+    \While{\blockidx $\neq$ -1} {
+        \push(\graph.deleted\_blocks, \blockidx)\;
+        \blocklinksreversed[\blockidx] $\leftarrow$ -1\;
+        \prevblockidx $\leftarrow$ \blockidx\;
+        \blockidx $\leftarrow$ \graph.block\_links[\blockidx]\;
+        \graph.block\_links[\prevblockidx] $\leftarrow$ -1\;
+    }
+
+    \graph.nvertex $\leftarrow$ \graph.nvertex $-1$\;
+
+    \caption{Remove Vertex}
+    \label{alg:remove_vertex}
+\end{algorithm}

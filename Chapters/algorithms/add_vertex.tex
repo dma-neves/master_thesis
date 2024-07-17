@@ -1,0 +1,37 @@
+\begin{algorithm}[t]
+    \small
+    \SetAlgoLined
+    \SetKwData{graph}{graph}
+    \SetKwData{attributes}{attributes}
+    \SetKwData{idx}{idx}
+    \SetKwData{v}{v}
+    \SetKwFunction{pushback}{push\_back}
+    \SetKwFunction{pop}{pop}
+    \SetKwFunction{addvertex}{add\_vertex}
+    \SetKwFunction{isempty}{is\_empty}
+
+    \KwIn{vertex\_attributes \attributes}
+    \KwOut{idx\_t}
+
+    \BlankLine
+    \idx $\leftarrow$ \graph.nvertex\;
+    \If{$\neg$ \isempty(\graph.deleted\_vertices)}{
+        \idx $\leftarrow$ \pop(\graph.deleted\_vertices)\;
+    }
+    \BlankLine
+    \v $\leftarrow$ vertex<vertex\_attributes>()\;
+    \v.idx $\leftarrow$ \idx\;
+    \v.degree $\leftarrow 0$\;
+    \v.adjacency\_list $\leftarrow -1$\;
+    \v.adjacency\_list\_end $\leftarrow -1$\;
+    \v.attributes $\leftarrow$ \attributes\;
+
+    \BlankLine
+    \pushback(\graph.vertices, \v)\;
+    \graph.nvertex $ \leftarrow $ \graph.nvertex $ + 1$\;
+
+    \KwRet \idx\;
+    
+    \caption{Add Vertex}
+    \label{alg:add_vertex}
+\end{algorithm}

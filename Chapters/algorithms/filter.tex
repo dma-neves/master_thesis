@@ -1,0 +1,33 @@
+
+\begin{algorithm}[t]
+    \small
+    \SetAlgoLined
+    \SetKwData{graph}{graph}
+    \SetKwData{frontier}{frontier}
+    \SetKwData{filtercompute}{filter\_compute}
+    \SetKwData{fcargs}{fc\_args}
+    \SetKwData{flags}{flags}
+    \SetKwData{filteredfrontier}{filtered\_frontier}
+    \SetKwFunction{graphbalflags}{graph\_bal\_flags}
+    \SetKwFunction{marrowfilter}{marrow::filter}
+    \SetKwFunction{unwrapresults}{unwrap}
+    \SetKwFunction{dirtyresults}{dirty\_results}
+
+    \KwIn{
+    vector<idx\_t> \frontier, 
+    filter\_compute\_fun \filtercompute, 
+    filter\_compute\_args... \fcargs
+    }
+    \KwOut{vector<idx\_t>}
+
+    \BlankLine
+
+    \flags $\leftarrow$ \graphbalflags(\frontier, \graph.vertices, \filtercompute, \unwrapresults(\fcargs)...)\;
+    \filteredfrontier $\leftarrow$ \marrowfilter(\frontier, \flags)\;
+    \dirtyresults(\fcargs)...\;
+
+    \KwRet \filteredfrontier\;
+
+    \caption{Filter}
+    \label{alg:filter}
+\end{algorithm}

@@ -1,0 +1,57 @@
+\typeout{NT FILE conclusion.tex}%
+
+\chapter{Conclusion and Future Work}
+
+\section{Conclusion}
+
+In this dissertation we aimed to develop a novel \gls{GPU}-accelerated dynamic graph processing library that provided both ease of use, using a high-level programming model inspired by Gunrock, and competitive performance against the limited state-of-the-art, using a data structure inspired by FaimGraph. Although the proposed solution still requires some performance tweaking, we believe that we have achieved a library that provides better usability than the current state-of-the-art, and promising performance. 
+
+In terms of usability, marrow-graph stands out with its intuitive and expressive interface. Paired with marrow's high-level functionalities, it facilitates the development of very readable and concise graph processing algorithms and applications. In contrast, FaimGraph lacks a high-level interface for such development, and Hornet provides a notably more complex interface compared to marrow-graph. Furthermore, both FaimGraph and Hornet exhibit recurring runtime errors, and their apparent lack of recent updates—more than three years in both cases—suggests that their development and support have stagnated. Hornet also notably provides a very limited assortment of algorithms that can run using the dynamic data structure.
+
+Regarding performance, marrow-graph shows promising results in algorithms such as \gls{SpMV} and \gls{PR}, provides decent graph initialization times, and offers fast graph updates.
+%for small to medium update batches. 
+In other algorithms, marrow-graph falls behind the competition, but not by a larger order of magnitude. This can most likely be overcome with the transition to the original marrow runtime (which offers more parallelization), and with some additional performance tweaking. Compared to the state-of-the-art \gls{CPU}-based framework Ligra, it offers better performance in most benchmarks by a large factor.
+
+We can conclude that the goals set out for this thesis were met, and that marrow-graph 
+shows potential to become one of the leading state-of-the-art \gls{GPU}-accelerated dynamic graph processing frameworks.
+
+% -> goal
+
+% -> achieved goal
+
+% -> promising performance and results
+
+% -> good interface
+
+% -> decent ammount of algoriths working well, need more
+
+% -> better usability and working features than competition (faimgraph only works with old cuda version, has been abandoned, many things have runtime errors; Hornet has very few dynamic algorithms, has been abandoned, many runtime errors).
+
+% -> with some performance tweaking we can achieve a greate SOTA framework
+
+\section{Future Work}
+
+In this section we discuss relevant future work to improve marrow-graph.
+
+
+% -> Move to Marrow runtime
+
+% -> More algorithms
+
+% -> Performance Tweaking
+
+% -> Multi-GPU
+
+% -> Hybrid CPU/GPU processing
+
+% -> GPU batch updates ?
+
+\paragraph{\textbf{Marrow \& Performance}.} Switch to the original complete marrow runtime, in order to benefit from all its features, and allow for increased parallelization. Additionally, continue tweaking the performance of Marrow-Graph's operators and algorithms. Especially the advance operator which currently requires launching multiple kernels.
+
+\paragraph{\textbf{Device Batch Updates}.} Support batched updates directly on the device as well as on the host. Currently, host updates offer excellent update rates for small to medium batch sizes. Support for updates directly on the device would allow marrow-graph to achieve higher insertion rates for larger batches.
+
+\paragraph{\textbf{Algorithms}.} Implement more graph-analytics algorithms and study their performance and accuracy.
+
+\paragraph{\textbf{Multi-\gls{GPU} Processing}.} Given marrow's support for multi-\gls{GPU} environments, study how marrow-graph could benefit from using multiple \gls{GPU}s, especially when dealing with very large graphs that don't fit in a single \gls{GPU}'s memory.
+
+\paragraph{\textbf{Hybrid Processing}.} Given that marrow-graph stores the graph's data structure both on the host and device, it is possible to process the graph and execute algorithms not only on the device (as we currently do), but also on the host. It would be interesting to study the performance implications of allowing for such hybrid processing.

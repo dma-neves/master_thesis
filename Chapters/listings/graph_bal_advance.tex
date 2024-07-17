@@ -1,0 +1,29 @@
+\begin{listing}[t]%[H]
+\begin{minted}
+[
+frame=lines,
+linenos,
+fontsize=\scriptsize
+]
+{cpp}
+static vector<int> _duplicates;
+static vector<int> _unique_flags;
+    
+template<typename vertex_attributes, typename edge_attributes, std::size_t block_size, 
+    typename compute_fun, typename... compute_args>
+static inline auto graph_bal_advance(/*...*/)
+{
+    _duplicates.resize(vertices.size());
+    _unique_flags.resize(advanced_frontier_size);
+    fill(_duplicates, 0);
+    
+    static func::graph_bal_advance<vertex_attributes, edge_attributes, 
+        compute_fun, kernel_type_t<compute_args>...> singleton;
+    auto /*vector<idx_t>*/ advanced_frontier = singleton (/*...*/);
+    return advanced_frontier;
+}
+\end{minted}
+\center
+\caption{Graph \gls{BAL} advance.}
+\label{lst:graph_bal_advance}
+\end{listing}

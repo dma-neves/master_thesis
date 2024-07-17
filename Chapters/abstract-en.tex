@@ -1,0 +1,29 @@
+%!TEX root = ../template.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% abstrac-en.tex
+%% NOVA thesis document file
+%%
+%% Abstract in English([^%]*)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\typeout{NT FILE abstrac-en.tex}%
+
+Graphs are ubiquitous in today's large-scale computing systems. With the rapid advance of technology and applications, the size of these graphs, and the complexity of the computations performed on them is constantly increasing. This has led to a need for the development and research of parallel graph processing, in order to overcome the computational limits of single-processor-based solutions. At the forefront of this research, is \gls{GPU}-accelerated graph processing, as the \gls{GPU}'s massive parallelization capabilities allow for extremely efficient execution of algorithms on large graphs. 
+
+In the last years, various \gls{GPU}-accelerated graph processing frameworks have emerged and started being utilized in the industry. However, practically all of these frameworks only support static graphs, meaning that whenever the graph is updated, it must be entirely retransmitted to the \gls{GPU} for further processing. In a landscape where many large graphs are constantly evolving, like for example social and financial networks, this becomes an issue. Some dynamic \gls{GPU}-accelerated graph processing frameworks have already emerged, however, they are few and their usability is still limited, making this an open and relevant area of research.
+
+In this thesis, we present Marrow-Graph, a fast \gls{GPU}-accelerated dynamic graph processing library, built using the Marrow framework. The library supports efficient graph updates, provides a simple yet expressive programming model, and includes multiple commonly used graph processing algorithms. To achieve this, the graph is stored both on the host and device using Marrow collections, allowing one to execute algorithms efficiently on the device while performing lazy graph updates on the host. %Marrow ensures that the synchronization of the graph's data structure with the device is delayed until strictly required, reducing the amount of host-device communication drastically. 
+%
+Additionally, we demonstrate how our solution offers better usability and conciseness compared to competitors, and exhibits promising performance. Marrow-Graph outperforms FaimGraph and Hornet in some algorithms, achieves speedups up to x260 compared to state-of-the-art \gls{CPU}-based solutions, and provides faster real-time edge insertions using small to medium update batches.
+
+% Palavras-chave do resumo em Inglês
+% \begin{keywords}
+% Keyword 1, Keyword 2, Keyword 3, Keyword 4, Keyword 5, Keyword 6, Keyword 7, Keyword 8, Keyword 9
+% \end{keywords}
+\keywords{
+  Dynamic Graph\and
+  Graph Analytics\and
+  GPU\and
+  Marrow\and
+  CUDA
+}

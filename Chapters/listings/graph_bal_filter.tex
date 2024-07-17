@@ -1,0 +1,41 @@
+\begin{listing}[t]
+\begin{minted}
+[
+frame=lines,
+linenos,
+fontsize=\scriptsize
+]
+{cpp}
+namespace func {
+    template <typename vertex_attributes, 
+        typename filter_compute_fun, typename... filter_compute_args>
+    struct graph_bal_flags : function</*...*/>
+    {
+        /* ... */
+        marrow_function
+        int operator()(idx_t frontier_idx, vertex<vertex_attributes>* vertices, 
+            filter_compute_fun filter_compute, filter_compute_args... comp_args) {
+
+            vertex<vertex_attributes>& vert = vertices[frontier_idx];
+            return filter_compute(vert, comp_args...);
+        }
+    };
+}
+
+template<typename vertex_attributes, typename filter_compute_fun, typename... filter_compute_args>
+static inline auto graph_bal_flags(
+    vector<idx_t>& frontier,
+    vector<vertex<vertex_attributes>>& vertices,
+    filter_compute_fun& filter_compute,
+    filter_compute_args&... fc_args)
+{
+
+    static func::graph_bal_flags<vertex_attributes, 
+        filter_compute_fun, kernel_type_t<filter_compute_args>...> singleton;
+    return singleton (frontier, vertices, filter_compute, fc_args...);
+}
+\end{minted}
+\center
+\caption{Graph \gls{BAL} flags.}
+\label{lst:graph_bal_filter}
+\end{listing}

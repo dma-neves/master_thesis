@@ -1,0 +1,37 @@
+\definecolor{lightred}{RGB}{220, 180, 180}
+
+
+\begin{table}%[htbp]
+  \centering
+  \small
+  \begin{tabular}{|l|SSSSSS|}
+    \hline
+        \rule{0pt}{2.5ex} 
+          & \text{$10^0$} & \text{$10^1$} & \text{$10^2$} & \text{$10^3$} & \text{$10^4$} & \text{$10^5$} \\
+    \hline
+    \hline
+    
+    & \multicolumn{6}{c|}{belgium\_osm} \\
+    \hline
+    
+    marrow-graph & 17.968 & 16.824 & 11.99 & 17.929 & 169.286 & 674.462 \\
+    faimgraph & \cellcolor{lightred}68.316 & \cellcolor{lightred}68.549 & \cellcolor{lightred}68.774 & \cellcolor{lightred}68.129 & 70.537 & 83.193 \\
+    gunrock & \cellcolor{lightred}176.374 & \cellcolor{lightred}176.883 & \cellcolor{lightred}178.479 & \cellcolor{lightred}176.923 & \cellcolor{lightred}177.849 & 185.608 \\
+
+    \hline
+     & \multicolumn{6}{c|}{roadNet-CA} \\
+    \hline
+    
+    marrow-graph & 27.933 & 48.354 & 85.748 & 234.513 & 390.803 & 840.588 \\
+    faimgraph & \cellcolor{lightred}95.249 & \cellcolor{lightred}94.061 & \cellcolor{lightred}94.297 & 93.824 & 95.458 & 109.704 \\
+    gunrock & \cellcolor{lightred}297.400 & \cellcolor{lightred}299.162 & \cellcolor{lightred}297.961 & \cellcolor{lightred}299.017 & 297.501 & 307.905 \\
+
+
+    \hline
+    
+    \end{tabular}%
+  \caption{Machine 1: Update SpMV execution times in milliseconds (red: slower than marrow-graph).}
+
+  \label{tab:m1_update_spmv}%
+\end{table}%
+

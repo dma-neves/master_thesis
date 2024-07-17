@@ -1,0 +1,56 @@
+\begin{listing}[t]
+\begin{minted}
+[
+frame=lines,
+linenos,
+fontsize=\scriptsize
+]
+{cpp}
+template<typename vertex_attributes, typename edge_attributes, 
+    typename compute_fun, typename... compute_args>
+struct graph_bal_advance : 
+  public function_with_coordinates</*...*/, inout<int*>, out<int*>, compute_fun, compute_args...> {
+    /* ... */
+    marrow_function
+    idx_t operator()(coordinate_t* coordinate, idx_t* frontier, std::size_t* degrees_scan,
+      vertex<vertex_attributes>* vertices, edge<edge_attributes>* edges,
+      std::size_t block_size, idx_t* block_links, std::size_t frontier_size, 
+      std::size_t advanced_frontier_size, int* duplicates, int* unique_flags, 
+      compute_fun compute, compute_args... comp_args) const {
+
+        const std::size_t tid = coordinate[0];
+        int frontier_vertex_n = binary_search(tid, frontier_size, degrees_scan);
+        idx_t vertex_idx = frontier[frontier_vertex_n];
+        Vertex& vertex = vertices[vertex_idx];
+        
+        std::size_t neighbour_n = tid - (frontier_vertex_n == 0 ? 
+            0 : degrees_scan[frontier_vertex_n - 1]);
+        idx_t block_idx = vertex.adjacency_list;
+        std::size_t block_n = neighbour_n / block_size;
+        std::size_t block_offset = neighbour_n % block_size;
+        for (int i = 0; i < block_n; i++)
+            block_idx = block_links[block_idx];
+        Edge _edge = edges[block_idx * block_size + block_offset];
+        
+        int prev = marrow::atomic::add(&duplicates[_edge.dst], 1);
+        if(prev > 0)
+           unique_flags[tid] = 0;
+        else
+            unique_flags[tid] = 1;
+
+        if constexpr (std::is_invocable<decltype(compute), 
+          Graph&, Vertex&, Vertex&, Edge&, compute_args&...>::value) {
+            Graph graph = { block_size, vertices, edges, block_links };
+            compute(graph, vertex, vertices[_edge.dst], _edge, comp_args...);
+        }
+        else {
+            compute(vertex, vertices[_edge.dst], _edge, comp_args...);
+        }
+        return _edge.dst;
+    }
+};
+\end{minted}
+\center
+\caption{Graph \gls{BAL} advance marrow function.}
+\label{lst:graph_bal_advance_marrow_function}
+\end{listing}

@@ -1,0 +1,106 @@
+\typeout{NT FILE introduction.tex}%
+
+\chapter{Introduction}
+% \label{cha:introduction}
+
+
+
+\section{Motivation}
+
+Graphs are one of the most common and useful data structures in math, science, and engineering. Many problems can fundamentally be described as relationships between nodes with a set of associated properties, i.e. a graph. Once a problem is represented as a graph, it enables one to perform analysis and computations over it using algorithms and functions that have already been studied and optimized for decades\footnote{Centuries when considering the work done in graph theory since 1735 outside the realm of computer science.}~\cite{wiki:graph_theory}. For these reasons, and given the ease of storing and processing large graphs using computers, graphs are being used in today's large-scale computing systems for a large variety of purposes~\cite{survery:graph_processing_on_gpu, paper:gunrock, wiki:graph_theory}. Some of these include:
+% TODO: references
+\begin{enumerate*}
+    \item Keeping track of relationships between users in a social media platform.
+    \item Optimizing packet routing in a computer network represented as a graph.
+    \item Enabling internet searches using graphs to build indexes of web pages.%, and determine the relevance and ranking of search results. 
+    \item Implementing recommendation systems by representing users, items, and their interactions as a graph.
+    \item Studying and understanding complex biological systems with graphs that can represent, for example, protein interactions. %, metabolic pathways, and gene regulatory networks. 
+\end{enumerate*}
+
+Given the rapid evolution of technology, and more specifically the rise of\textit{ big data}, the size of graphs and the complexity and scope of the computations being performed on graphs is always increasing~\cite{paper:graph_processing_accelerators}. 
+% TODO maybe include reference
+%Some of the biggest graphs being processed by computer systems today can have hundreds of millions of nodes.
+This has resulted in a large interest in the research of parallel graph processing to overcome the limitations of single processor-based machines' computational resources~\cite{survey:graph_processing_landscape}. The two main approaches that have emerged are distributed graph processing, involving graph partitioning and processing over multiple machines, and accelerated graph processing, which utilizes accelerators like the \gls{GPU} to process graphs faster. 
+% TODO maybe include reference
+While the former can be more capable when dealing with the largest graphs present today, the latter has the potential to allow for more efficient and faster processing for all but the largest graphs. This is so, given the lack of communication overhead associated with distributed memory systems, and the ability to massively parallelize algorithms. 
+% TODO maybe include reference
+Research in this field is becoming ever more relevant and crucial to ensure that systems dependent on large graphs can continue to scale sustainably.
+
+\section{Problem}
+
+A lot of graphs being processed today, are not only large but are also constantly evolving. Two illustrative examples are social networks and financial networks.~\cite{paper:custinger}. Nodes and edges in such graphs are constantly being created and updated. This has led to the need and development of dynamic graph processing systems. Most of these systems are aimed at either single-processor shared-memory machines, or distributed environments, given that efficient dynamic data structures are already commonly used in such systems.
+
+As we have discussed before, accelerated graph processing, using \gls{GPU}s for example, has the potential to yield the best-performing graph processing algorithms. For this reason, a number of \gls{GPU} graph processing frameworks have been developed in the last two decades~\cite{paper:gunrock, paper:hornet, book:cugraph}. These frameworks have proven to be very efficient and essential for many applications. The only caveat is that most \gls{GPU} based graph processing frameworks today are designed for static graphs. This means that whenever a graph is updated, it must be completely re-transmitted to the \gls{GPU} for further processing, making such frameworks not well suited for frequently mutating graphs.
+
+A few \gls{GPU}-based dynamic-graph processing frameworks have already emerged, such as Hornet~\cite{paper:hornet} and FaimGraph~\cite{paper:faimgraph}. However, the number of frameworks that support dynamic graphs is still quite limited, and the existing solutions do not seem to be in active development. This is mainly due to the limitations associated with \gls{GPU}s. \gls{GPU}s are designed to operate efficiently over regular data structures that store data in a compact and contiguous layout. Graphs can be stored using compact and contiguous data structures such as \gls{CSR}, however, such data structures typically do not allow for efficient updates, often requiring reconstructing the whole graph. Another issue is managing communication with the \gls{GPU} efficiently, given that communication between the host and device requires expensive operations. These limitations have proven to be challenging (but not impossible) to overcome when developing dynamic-graph processing frameworks accelerated by \gls{GPU}s.
+
+Given that \gls{GPU}s are unmatched in terms of efficient parallel computing capabilities, researching and developing frameworks that efficiently support dynamic graphs on \gls{GPU}s is relevant, and possibly crucial, for the future of graph analytics and graph processing. 
+
+% making research in this field relevant, and possibly crucial, for the future of graph processing and analytics
+
+% Large changing graphs
+% GPU main accelerator
+% graphs hard to make efficient on GPU?
+% Lots of static graph frameworks
+% Few dynamic graph frameworks
+% hard to update graphs efficiently
+
+\section{Solution Proposal}
+
+In this thesis, we present Marrow-Graph, a fast dynamic graph processing library designed for \gls{CPU}-\gls{GPU} systems. Marrow-graph supports operations both on the \gls{CPU} and \gls{GPU}. A graph is stored both on the host and device and consistency between them is automatically ensured. Updates to the graph can be performed efficiently on the host (and lazily synchronized
+\footnote{Lazy synchronization is a strategy that delays the synchronization of an update until its value is needed.}), 
+while heavy algorithms can be executed and accelerated on the device. Contrary to static graph processing frameworks, updates to the graph do not require re-transmitting the whole graph to the device, but rather only require updating the segments that have changed. Additionally, the library includes multiple widely used graph processing algorithms but also allows the user to develop their own algorithms based on a set of simple primitives: \texttt{advance}, \texttt{compute}, \texttt{filter} and \texttt{segmented intersection} (inspired by Gunrock~\cite{paper:gunrock}).
+%
+%Marrow-Graph is novel as it uniquely combines a simple but powerful programming model inspired by Gunrock, an efficient dynamic graph data-structure inspired by FaimGraph, and the aforementioned properties associated with Marrow's memory management system.
+% Possibly remove this
+%It will be possible to switch between different internal data structures to represent the graph. This allows the user to use the data structure best suited and most efficient for their specific needs.
+
+In order to conceive this library, we make use of the Marrow~\cite{paper:marrow} framework, an algorithmic skeleton-based parallel
+programming framework, focused on \gls{GPU} acceleration. This framework allows one to easily create data structures, that are stored both on the host and device, and to perform operations either on the \gls{CPU} or \gls{GPU}, without worrying about data consistency since it is guaranteed by Marrow via lazy synchronization. Marrow offers a set of powerful high-level primitives to create and manipulate these data structures and compiles them down automatically to low-level operations for a specified back-end like \gls{CUDA}. We take advantage of these high-level primitives and containers as a basis for our implementation.
+%
+%A previous thesis~\cite{marrow_graph}, has already proven the viability to develop such a library using Marrow. We will leverage the findings and insights from this previous work, and develop a library that has better performance, is more flexible and hosts a wide array of graph-analytic algorithms. 
+%
+
+
+To store the graph, Marrow-Graph utilizes a blocked adjacency list data structure, shared between the host and device, inspired by FaimGraph. Such a data structure allows for efficient updates, contrary to static graph data structures such as \gls{CSR}, while also achieving good performance in parallel graph analytics. Sharing the graph between the host and device also offers additional benefits beyond the aforementioned efficient and lazy updates. It enables further investigation into the potential advantages of switching between \gls{CPU} and \gls{GPU} execution based on the specific workloads performed on a graph. Additionally, it enables future out-of-GPU-memory graph representations for graphs that do not fit into \gls{GPU} memory.
+
+We present a novel solution that uniquely combines a simple but powerful programming model inspired by Gunrock and an efficient dynamic graph data structure inspired by FaimGraph, which additionally, is shared and lazily synchronized between the host and device.
+% Change this once performance has been assessed
+We also assess the library's performance by running a set of graph constructions, updates, and algorithms on real large-scale graphs, and compare its execution times against some of the state-of-the-art \gls{GPU} accelerated graph processing frameworks like Gunrock~\cite{paper:gunrock}, Hornet~\cite{paper:hornet} and FaimGraph~\cite{paper:faimgraph}.
+
+% present marrow-graph
+% main features
+    % - support gpu and cpu
+    % - store graph both in cpu and gpu
+    % - data consistency between gpu and cpu
+    % - efficient updates
+    % - efficient processing
+    % - lots of algorithms
+    % - possibly support multiple underlying data structure
+% Usage of marrow library
+% marrow manages data structures between gpu and cpu
+% previously devloped: proved that it was viable, had some issues
+% main improvement points from previous, new features and refactor
+% evaluation
+
+\section{Contributions}
+
+The main contributions of this work are:
+\begin{itemize}
+    \item Design of a programming model and interface that allows for graph manipulation, and intuitive development of graph processing algorithms.
+    \item Development of Marrow-Graph, a \gls{GPU}-accelerated dynamic graph processing library that implements the previous abstraction using a \gls{BAL} data structure. %This library is built on top of Marrow, offers efficient updates and includes a large set of common graph analytics algorithms.
+    %\item Exploring the benefits and trade-offs of switching between CPU and \gls{GPU} execution depending on the workload at hand.
+    \item Evaluation of our solution against several state-of-the-art \gls{GPU}-accelerated graph processing frameworks.
+\end{itemize}
+
+\section{Structure}
+
+This document is composed of six chapters:
+
+\begin{itemize}
+    \item The first chapter introduces the motivation for this work, and provides an overview of the developed solution.
+    \item The second chapter starts by providing the background required for the comprehension and development of Marrow-Graph. This includes an overview of the architecture and execution model of the \gls{GPU}, an overview of \gls{CUDA}, an introduction to Marrow's base concepts and architecture, an exploration of the most common data structures to store graphs, an overview of the existing programming models to process graphs, and finally, a survey of the existing graph processing solutions.
+    \item In the third chapter we formally introduce Marrow-Graph's programming model and interface and detail its implementation using the \gls{BAL} data structure. Additionally, we provide a breakdown of all the operators, graph manipulation functions, and some of the algorithms supported by Marrow-Graph.
+    \item In the fourth chapter we evaluate Marrow-Graph based on its correctness, expressiveness, and conciseness, and its performance (experimentally). For the latter two, we compare Marrow-Graph against the state-of-the-art \gls{GPU}-based graph processing frameworks.
+    \item The fifth chapter offers a comprehensive discussion on the established goals and whether they were met. Additionally, we outline future work for enhancing Marrow-Graph's capabilities and performance.
+\end{itemize}

@@ -1,0 +1,28 @@
+\begin{listing}
+\begin{minted}
+[
+frame=lines,
+linenos,
+fontsize=\scriptsize
+]
+{cpp}
+marrow_function
+idx_t binary_search(std::size_t tid, std::size_t frontier_size, std::size_t* degrees_scan) {
+    int frontier_vertex_n = -1;
+    int low = 0, high = frontier_size - 1;
+    while (frontier_vertex_n == -1 && low <= high) {
+        int mid = (low + high) / 2;
+        if (tid < degrees_scan[mid] && (mid==0 || tid >= degrees_scan[mid-1]))
+            frontier_vertex_n = mid;
+        else if (tid < degrees_scan[mid])
+            high = mid - 1;
+        else
+            low = mid + 1;
+    }
+    return frontier_vertex_n;
+}
+\end{minted}
+\center
+\caption{Graph Bal Binary Search.}
+\label{lst:binary_search}
+\end{listing}

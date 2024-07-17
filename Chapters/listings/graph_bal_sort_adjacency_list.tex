@@ -1,0 +1,74 @@
+\begin{listing}[H]
+\begin{minted}
+[
+frame=lines,
+linenos,
+fontsize=\scriptsize
+]
+{cpp}
+template <typename vertex_attributes, typename edge_attributes, std::size_t block_size>
+struct graph_bal_sort_adjacency_list_fun {
+    using Block = array<edge<edge_attributes>, block_size>;
+    vertex<vertex_attributes>& src_vertex;
+    vector<Block>& blocks;
+    vector<idx_t>& block_links;
+
+    graph_bal_sort_adjacency_list_fun(vertex<vertex_attributes>& src_vertex, 
+      vector<Block>& blocks, vector<idx_t>& block_links) :
+        src_vertex(src_vertex), blocks(blocks), block_links(block_links) {
+    }
+
+    void operator()() {
+        quick_sort(0, src_vertex.degree-1);
+    }
+
+    void quick_sort(int start, int end) {
+
+        if (start >= end)
+            return;
+
+        int p = partition(start, end);
+        quick_sort(start, p - 1);
+        quick_sort(p + 1, end);
+    }
+
+    edge<edge_attributes>& get(int i) {
+        int block_n = i/block_size;
+        int offset = i%block_size;
+        int block_index = src_vertex.adjacency_list;
+        for(int j = 0; j < block_n; j++)
+            block_index = block_links.read(block_index);
+        Block& block = blocks.read(block_index);
+        return block.read(offset);
+    }
+
+    void swap(edge<edge_attributes> *a, edge<edge_attributes> *b) {
+        edge<edge_attributes> t = *a;
+        *a = *b;
+        *b = t;
+    }
+
+    int partition(int low, int high) {
+        int pivot = get(high).dst;
+        int i = (low - 1);
+        for (int j = low; j < high; j++) {
+            if (get(j).dst <= pivot) {
+                i++;
+                swap(&get(i), &get(j));
+            }
+        }
+        swap(&get(i + 1), &get(high));
+        return (i + 1);
+    }
+};
+
+template <typename vertex_attributes, typename edge_attributes, std::size_t block_size>
+void graph_bal_sort_adjacency_list(/*...*/) {
+
+    graph_bal_sort_adjacency_list_fun(/*...*/)();
+}
+\end{minted}
+\center
+\caption{Sort Adjacency List.}
+\label{lst:sort_adjacency_list}
+\end{listing}

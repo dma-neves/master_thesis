@@ -1,0 +1,34 @@
+
+\begin{algorithm}[H]
+    \small
+    \SetAlgoLined
+    \SetKwData{graph}{graph}
+    \SetKwData{blockidx}{block\_idx}
+    \SetKwData{index}{i}
+    \SetKwData{unsortedadjacencylist}{unsorted\_adjacency\_list}
+    \SetKwData{unsortedadjacencylists}{unsorted\_adjacency\_lists}
+
+    \SetKwFunction{graphbalsortadjacencylist}{graph\_bal\_sort\_adjacency\_list}
+    \SetKwFunction{size}{size}
+
+    % \KwIn{idx\_t \src, idx\_t \dst, idx\_t new\_dst}
+    % \KwOut{bool}
+
+    % \BlankLine
+
+    \If{\graph.track\_unsorted\_adjacencies}{
+         \ForEach{\unsortedadjacencylist \textbf{in} \graph.unsorted\_adjacency\_lists}{
+            \graphbalsortadjacencylist(\graph.vertices[\unsortedadjacencylist], \graph.blocks, \graph.block\_links)\;
+        }
+    }
+    \Else {
+         \For{\index $=0$ \KwTo \size(\graph.vertices)}{
+            \If{\graph.vertices[\index].degree $\neq 0$} {
+                \graphbalsortadjacencylist(\graph.vertices[\index], \graph.blocks, \graph.block\_links)\;
+            }
+        }
+    }
+
+    \caption{Sort}
+    \label{alg:sort}
+\end{algorithm}

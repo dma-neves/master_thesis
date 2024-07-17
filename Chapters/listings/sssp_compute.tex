@@ -1,0 +1,27 @@
+\begin{listing}[t]
+\begin{minted}
+[
+frame=lines,
+linenos,
+fontsize=\scriptsize
+]
+{cpp}
+template <typename vertex_attributes, typename edge_attributes>
+struct shortest_path {
+    marrow_function void operator()(vertex<vertex_attributes>& src, vertex<vertex_attributes>& dst, 
+      edge<edge_attributes>& edge, float *distances, int *visited, int *revisit) {
+
+        float distance_to_neighbor = distances[src.idx] + edge.attributes.weight;
+        marrow::atomic::min(&distances[dst.idx], distance_to_neighbor);
+        float recover_distance = distances[dst.idx];
+
+        marrow::atomic::exch(&visited[src.idx], 1);
+        if (recover_distance == distance_to_neighbor)
+            marrow::atomic::exch(&revisit[dst.idx], 1);
+    }
+} ;
+\end{minted}
+\center
+\caption{SSSP compute function.}
+\label{lst:sssp_compute}
+\end{listing}

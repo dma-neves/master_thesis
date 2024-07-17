@@ -1,0 +1,39 @@
+\begin{listing}%[t]
+\begin{minted}
+[
+frame=lines,
+linenos,
+fontsize=\scriptsize
+]
+{cpp}
+template <typename vertex_attributes, typename edge_attributes>
+class graph {
+
+    using Vertex = vertex<vertex_attributes>;
+    using Edge = edge<edge_attributes>;
+public:
+    virtual idx_t add_vertex(vertex_attributes attributes) = 0;
+    virtual bool remove_vertex(idx_t idx) = 0;
+    virtual bool add_edge(idx_t src, idx_t dst, edge_attributes attributes) = 0;
+    virtual bool add_edge_batch(edge_insertion_batch<edge_attributes>& batch) = 0;
+    virtual bool remove_edge(idx_t src, idx_t dst) = 0;
+    virtual bool remove_edge_batch(edge_deletion_batch<edge_attributes>& batch) = 0;
+    virtual bool edit_edge(idx_t src, idx_t dst, idx_t new_dst) = 0;
+    virtual vector<idx_t> get_connection(idx_t idx) = 0;
+    virtual std::size_t get_degree(idx_t idx) = 0;
+    virtual std::size_t get_number_of_vertex() = 0;
+    virtual std::size_t get_number_of_edges() = 0;
+    virtual void sort() = 0;
+
+    template <bool return_frontier = true, bool balanced = true>
+    template <typename compute_fun, typename... compute_args>
+    auto advance(vector<idx_t>& frontier, compute_fun& cfun, compute_args&... cargs);
+    
+    template <typename filter_fun, typename... filter_args>
+    auto filter(vector<idx_t> &frontier, filter_fun& ffun, filter_args&... fargs);
+};
+\end{minted}
+\center
+\caption{Graph interface.}
+\label{lst:graph_interface_complete}
+\end{listing}

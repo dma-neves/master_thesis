@@ -1,0 +1,72 @@
+\begin{listing}
+\begin{minted}
+[
+frame=lines,
+linenos,
+fontsize=\scriptsize
+]
+{cpp}
+template<typename vertex_attributes, typename edge_attributes, 
+  typename on_intersection_fun, typename... on_intersection_arguments>
+__device__
+int segmented_intersection(
+        graph_bal_t<vertex_attributes, edge_attributes> &graph,
+        vertex<vertex_attributes>& vertex_a,
+        vertex<vertex_attributes>& vertex_b,
+        on_intersection_fun on_intersection,
+        on_intersection_arguments&... on_intersection_args) {
+
+    using Vertex = vertex<vertex_attributes>;
+    using Edge  = edge<edge_attributes>;
+
+    int nintersections = 0;
+    int degree_a = graph.vertices[vertex_a.idx].degree;
+    int degree_b = graph.vertices[vertex_b.idx].degree;
+    int block_index_a = graph.vertices[vertex_a.idx].adjacency_list;
+    int block_index_b = graph.vertices[vertex_b.idx].adjacency_list;
+    int offset_a = 0;
+    int offset_b = 0;
+    int index_a = 0;
+    int index_b = 0;
+
+    while (index_a < degree_a && index_b < degree_b) {
+
+        int edges_index_a = block_index_a * graph.block_size + offset_a;
+        int edges_index_b = block_index_b * graph.block_size + offset_b;
+        Vertex& neighbor_a = graph.vertices[graph.edges[edges_index_a].dst];
+        Vertex& neighbor_b = graph.vertices[graph.edges[edges_index_b].dst];
+
+        if (neighbor_a.idx == neighbor_b.idx) {
+            nintersections++;
+            on_intersection(vertex_a, vertex_b, neighbor_a, on_intersection_args...);
+            index_a++;
+            offset_a++;
+            index_b++;
+            offset_b++;
+        }
+        else if (neighbor_a.idx > neighbor_b.idx) {
+            index_b++;
+            offset_b++;
+        }
+        else {
+            index_a++;
+            offset_a++;
+        }
+
+        if (offset_a >= graph.block_size) {
+            offset_a = 0;
+            block_index_a = graph.block_links[block_index_a];
+        }
+        if (offset_b >= graph.block_size) {
+            offset_b = 0;
+            block_index_b = graph.block_links[block_index_b];
+        }
+    }
+
+    return nintersections;
+}
+\end{minted}
+\center
+\caption{Segmented Intersection.}
+\label{lst:segmented_intersection}
+\end{listing}

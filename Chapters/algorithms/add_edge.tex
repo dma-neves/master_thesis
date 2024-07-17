@@ -1,0 +1,45 @@
+
+\begin{algorithm}[t]
+    \small
+    \SetAlgoLined
+    \SetKwData{graph}{graph}
+    \SetKwData{src}{src}
+    \SetKwData{dst}{dst}
+    \SetKwData{attributes}{attributes}
+    \SetKwData{newedge}{new\_edge}
+    \SetKwData{srcvertex}{src\_vertex}
+    \SetKwData{srcdegree}{src\_degree}
+    \SetKwData{blockoffset}{block\_offset}
+    \SetKwData{blockidx}{block\_idx}
+    \SetKwData{block}{block}
+    \SetKwData{blocksize}{block\_size}
+    \SetKwData{prevblockidx}{prev\_block\_idx}
+    \SetKwData{getnewblock}{get\_new\_block}
+    \SetKwData{blocks}{blocks}
+    \SetKwData{nedges}{nedges}
+    \SetKwFunction{set}{set}
+
+    \KwIn{idx\_t src, idx\_t dst, edge\_attributes \attributes}
+
+    \BlankLine
+    \newedge $\leftarrow$ edge<edge\_attributes>()\;
+    \newedge.dst $\leftarrow$ \dst\;
+    \newedge.attributes $\leftarrow$ \attributes\;
+
+    \BlankLine
+    \srcvertex $\leftarrow$ \graph.vertices[\src]\;
+
+    \blockoffset $\leftarrow$ \srcvertex.degree $\%$ \blocksize\;
+    \blockidx $\leftarrow$ \srcvertex.adjacency\_list\_end\;
+    \If{\blockoffset $==$ 0}{
+        \blockidx $\leftarrow$ \getnewblock(\srcvertex, \blockidx)\;
+    }
+
+    \BlankLine
+    \graph.blocks[\blockidx][\blockoffset] $\leftarrow$ \newedge\;
+    \srcvertex.degree $\leftarrow$ \srcvertex $+1$\;
+    \graph.nedges $\leftarrow$ \graph.nedges $+1$\;
+
+    \caption{Add Edge}
+    \label{alg:add_edge}
+\end{algorithm}

@@ -1,0 +1,65 @@
+\definecolor{lightred}{RGB}{220, 180, 180}
+
+
+\begin{table}%[htbp]
+  \centering
+  \small
+    \begin{tabular}{|l|ccccc|}
+    \hline
+          & \text{delaunay\_n21} & \text{roadNet-CA} & \text{hollywood-2009} & \text{belgium\_osm} & \text{road\_usa} \\
+    \hline
+    \hline
+    marrow-graph & 1643+118 & 853+112 & 14260+378 & 553+97 & 11031+778 \\
+    gunrock & \cellcolor{lightred}2191 & \cellcolor{lightred}1038 & \cellcolor{lightred}19515 & 512 & 10082 \\
+    hornet & 1300 & 671 & 10321 & 455 & 6557 \\
+    ligra & 1730 & 855 & 13300 & 518 & 11100 \\
+    faimgraph & 1464 & 130 & 14600 & 71 & \text{-} \\
+    \hline
+    \end{tabular}%
+    \caption{Machine 1: Graph initialization times in milliseconds (red: slower than marrow-graph, marrow-graph: construction time + upload).}
+
+  \label{tab:m1_graph_init}%
+\end{table}%
+
+
+
+% \begin{table}%[htbp]
+%   \centering
+%   \small
+%     \begin{tabular}{|l|ccccc|}
+%     \hline
+%            & \text{delaunay\_n21} & \text{roadNet-CA} & \text{hollywood-2009} & \text{belgium\_osm} & \text{road\_usa} \\
+%     \hline
+%     \hline
+%     marrow-graph & 1482 & 837 & 12326 & 583 & 9630 \\
+%     gunrock & \cellcolor{lightred}1717 & 741 & \cellcolor{lightred}15358 & 419 & 8141 \\
+%     hornet & 969 & 535 & 7314 & 364 & 4943 \\
+%     ligra & 384 & 193 & 2960 & 117 & 2360 \\
+%     faimgraph & 362 & 167 & 2896 & 87 & \text{-} \\
+%     \hline
+%     \end{tabular}%
+%     \caption{Machine 2: Graph initialization times in milliseconds (red: slower than marrow-graph).}
+
+%   \label{tab:m2_graph_init}%
+% \end{table}%
+
+
+\begin{table}%[htbp]
+  \centering
+  \small
+    \begin{tabular}{|l|ccccc|}
+    \hline
+           & \text{delaunay\_n21} & \text{roadNet-CA} & \text{hollywood-2009} & \text{belgium\_osm} & \text{road\_usa} \\
+    \hline
+    \hline
+    marrow-graph & 1356+100 & 733+89 & 11468+161 & 491+82 & 9146+261 \\
+    gunrock & \cellcolor{lightred}1717 & 741 & \cellcolor{lightred}15358 & 419 & 8141 \\
+    hornet & 969 & 535 & 7314 & 364 & 4943 \\
+    ligra & 384 & 193 & 2960 & 117 & 2360 \\
+    faimgraph & 362 & 167 & 2896 & 87 & \text{-} \\
+    \hline
+    \end{tabular}%
+    \caption{Machine 2: Graph initialization times in milliseconds (red: slower than marrow-graph, marrow-graph: construction time + upload).}
+
+  \label{tab:m2_graph_init}%
+\end{table}%

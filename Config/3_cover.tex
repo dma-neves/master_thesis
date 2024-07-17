@@ -1,0 +1,141 @@
+%!TEX root = ../template.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Config/3_cover.tex
+%% NOVA thesis configuration file
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\typeout{NT FILE Config/3_cover.tex}%
+
+%%==================================================================
+%%  THESIS/DISSERTATION COVER DATA
+%%==================================================================
+
+%-------------------------------------------------------------------
+% Thesis/Dissertation title (valid for all languages unless redefined as below)
+% SYNTAX: \nttitle(type,lang){title}
+%         For [type] use: [main]  for main title
+%                         [sub]   for sub-title
+%                         [spine] for a book spine version of the title
+%                                 (if omittted defaults to main title without line breaks)
+%-------------------------------------------------------------------
+%         You may use "\\" to force line breaks
+%\nttitle(main,en){Dynamic Graph Processing \\ in CPU-GPU Environments}%
+\nttitle(main,en){GPU Accelerated \\Dynamic Graph Processing}%
+
+%         You may use "\\" to force line breaks
+%\nttitle(sub,en){Some thoughts on the Life, the Universe,\\and Everything Else}%
+%\nttitle(sub,pt){Algumas considerações sobre a Vida,\\o Universo e Tudo o Mais}%
+\nttitle(sub,en){}%
+\nttitle(sub,pt){}%
+
+%         You may NOT use "\\" to force line breaks
+% \nttitle(spine,en){A Very Long and Impressive Thesis Title}%
+% \nttitle(spine,pt){Um Título de Tese Longo e Impressionante}%
+
+%-------------------------------------------------------------------
+% DEPARTMENT NAME customization
+% SYNTAX: \ntdepartment(language){name}
+%         You may use "\\" to force line breaks
+%         The stared (*) version will only define if undefined, otherwise ignored
+% \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+%    For FCT-NOVA, please open file “9_nova_fct.tex” and uncomment 
+%    the right name for your Department from the given list
+%    otherwiese fill the entries below
+%-------------------------------------------------------------------
+\ntdepartment*(pt){Departamento de\\Nome do Departamento}
+\ntdepartment*(en){Department of\\Computer Science}
+
+%-------------------------------------------------------------------
+% DEGREE NAME customization
+% SYNTAX: \ntdegreename(language){degree_name}
+%         You may use "\\" to force line breaks
+%         The stared (*) version will only define if undefined, otherwise ignored
+% \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+%    For FCT-NOVA, please open file “9_nova_fct.tex” and uncomment 
+%    the right name(s) for the PhD/MSc program from the given list
+%    otherwiese fill the entries below
+%-------------------------------------------------------------------
+\ntdegreename*(pt){Engenharia Informática}
+\ntdegreename*(en){Computer Science and Engineering}
+
+%-------------------------------------------------------------------
+% DEGREE SPECIALIZATION customization
+%   If the degree includes a specialization, otherwise comment the 
+%   lines below
+% SYNTAX: \ntspecialization(language){name}
+%         You may use "\\" to force line breaks
+%         The stared (*) version will only define if undefined, otherwise ignored
+%-------------------------------------------------------------------
+% \ntspecialization*(pt){Designação da Especialidade}
+% \ntspecialization*(en){Speciality Name}
+
+%-------------------------------------------------------------------
+% SPONSORS customization
+%   Some Schools require the work sponsors to be listed in the cover
+% SYNTAX: \ntsponsors(language){names}
+%-------------------------------------------------------------------
+\ntsponsors(pt){Fontes de Financiamento}
+\ntsponsors(en){Funding Sponsors}
+
+%-------------------------------------------------------------------
+% AUTHOR customization
+%    Author gender, full name, abd abbreviated name
+% SYNTAX: \ntauthorname(gender){full name}{abbreviated name}
+%         Use [f] for female and [m] for male
+%-------------------------------------------------------------------
+\ntauthorname(m){David Machado das Neves}{David Neves}
+
+%-------------------------------------------------------------------
+% AUTHOR previous degree
+% SYNTAX: \ntauthordegree{degree}
+%-------------------------------------------------------------------
+\ntauthordegree(en){BSc in Computer Science and Engineering}
+
+%-------------------------------------------------------------------
+% SUBMISSION DATE
+% SYNTAX: \ntdate{year,month}
+%         \ntdate{year}
+%         If <month> is a number, it will be converted to the month name
+%         in the appropriate language
+%-------------------------------------------------------------------
+\ntdate{2024,April}
+
+%-------------------------------------------------------------------
+% ADVISERS LIST
+% Advisers' gender and info (name, position, school)
+% SYNTAX: \ntaddperson{adviser}(role,gender){Name, Position, School}
+%         For [role] use: [a] for adviser
+%                         [c] for co-adviser
+%         For [gender] use: [f] for female
+%                           [m] for male
+%         You may use "\\" to force line breaks
+% Advisers(s)
+\ntaddperson{adviser}(a,f){Hervé Miguel Cordeiro Paulino, Associate Professor, NOVA FCT, NOVA University Lisbon}
+% Co-advisers(s)
+%\ntaddperson{adviser}(c,m){John Doe Co-Adviser Name, Associate Professor, NOVA University Lisbon}
+%\ntaddperson{adviser}(c,f){John Doe other Co-Adviser Name, Full Professor, NOVA University Lisbon}
+
+%-------------------------------------------------------------------
+% COMMITTEE MEMBERS
+% SYNTAX: \ntaddperson{committee}(role,gender){Name, Position, School}
+%         For [role] use: [c] for committee chair
+%                         [r] for rapporteurs
+%                         [a] for advisers
+%                         [ca] for co-advisers
+%                         [m] for remaining members
+%                         [g] for guests
+%         For [gender] use: [f] for female
+%                           [m] for male
+%         You may use "\\" to force line breaks
+%\ntaddperson{committee}(c,m){Name of the committee chairperson, Full Professor, FCT-NOVA}
+%\ntaddperson{committee}(r,m){Name of a rapporteur, Associate Professor, Another University}
+% \ntaddperson{committee}(r,m){Name of another rapporteur, Assistant Professor, Another University}
+% \ntaddperson{committee}(a,m){Name of the adviser present in defense, Associate Professor, Some University}
+% \ntaddperson{committee}(ca,m){Name of the co-adviser present in defense, Associate Professor, Some University}
+%\ntaddperson{committee}(m,f){Another member of the committee, Full Professor, Another University}
+%\ntaddperson{committee}(m,f){Yet another member of the committee, Assistant Professor, Another University}
+% \ntaddperson{committee}(g,m){Guest member of the committee, Position, University}
+
+\ntaddperson{committee}(c,m){Carla Ferreira, Full Professor, NOVA FCT, NOVA University Lisbon}
+\ntaddperson{committee}(r,m){Pedro Ribeiro, Assistant Professor, FCUP}
+\ntaddperson{committee}(a,m){Hervé Paulino, Associate Professor, NOVA FCT, NOVA University Lisbon}

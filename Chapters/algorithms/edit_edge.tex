@@ -1,0 +1,29 @@
+
+\begin{algorithm}[t]
+    \small
+    \SetAlgoLined
+    \SetKwData{graph}{graph}
+    \SetKwData{src}{src}
+    \SetKwData{dst}{dst}
+    \SetKwData{newdst}{new\_dst}
+    \SetKwData{blockidx}{block\_idx}
+    \SetKwData{offset}{offset}
+    \SetKwData{found}{found}
+    \SetKwFunction{findedge}{find\_edge}
+
+    \KwIn{idx\_t \src, idx\_t \dst, idx\_t new\_dst}
+    \KwOut{bool}
+
+    \BlankLine
+
+
+    \blockidx, \offset, \found $\leftarrow$ \findedge(\src, \dst)\;
+    \If{$\neg$ \found}{
+        \KwRet false\;
+    }
+    \graph.blocks[\blockidx][\offset].dst $\leftarrow$ \newdst\;
+    \KwRet true\;
+
+    \caption{Edit Edge}
+    \label{alg:edit_edge}
+\end{algorithm}

@@ -1,0 +1,86 @@
+%!TEX root = ../template.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% appendix1.tex
+%% NOVA thesis document file
+%%
+%% Chapter with example of appendix with a short dummy text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\typeout{NT FILE appendix1.tex}%
+
+\chapter{Listings}
+\label{app:listings}
+
+\input{Chapters/listings/binary_search}
+
+\input{Chapters/listings/segmented_intersection}
+
+\input{Chapters/listings/graph_bal_sort_adjacency_list}
+
+\input{Chapters/listings/graph_bal_unbalanced_forntierless_advance_marrow_function}
+
+\input{Chapters/listings/marrow_graph_interface_complete}
+
+%\section{CUDA}
+
+% \begin{listing}[H]
+% \begin{minted}[frame=single, fontsize=\scriptsize]{cpp}
+% #define N 2048
+% #define THREADS_PER_BLOCK 512
+
+% __global__
+% void add(int* res, int* b, int* c, int n)
+% {
+%     int index = threadIdx.x + blockIdx.x*blockDim.x;
+
+%     if(index < n)
+%         res[index] = b[index] + c[index];
+% }
+
+% int main()
+% {
+%     int *res, *b, *c;
+%     int *d_res, *d_b, *d_c; // Device data
+%     int size = N * sizeof(int);
+
+%     // Allocate and init host data
+%     b = (int*)malloc(size);
+%     c = (int*)malloc(size);
+%     res = (int*)malloc(size);
+%     init_data(b, c, N);
+
+%     // Allocate device data
+%     cudaMalloc((void**)&d_b, size);
+%     cudaMalloc((void**)&d_c, size);
+%     cudaMalloc((void**)&d_res, size);
+
+%     // Copy data from host to device
+%     cudaMemcpy(d_b, b, size, cudaMemcpyHostToDevice);
+%     cudaMemcpy(d_c, c, size, cudaMemcpyHostToDevice);
+
+%     // Specify grid and envoke kernel
+%     // ceiling
+%     long nb = (N+THREADS_PER_BLOCK-1)/THREADS_PER_BLOCK;
+%     add<<<nb, THREADS_PER_BLOCK>>>(d_res, d_b, d_c, N);
+
+%     // Copy result data from device to host
+%     cudaMemcpy(res, d_res, size, cudaMemcpyDeviceToHost);
+
+%     // Deallocate memory
+%     cudaFree(d_b); cudaFree(d_c); cudaFree(d_res);
+%     free(b); free(c); free(res);
+% }
+% \end{minted}
+% \center
+% \title{CUDA add vectors main function}
+% \label{lst:cuda-add-vecs-main}
+% \end{listing}
+
+% \begin{figure}
+% \label{fig:sm}
+%   \centering
+%     \includegraphics[width=0.65\textwidth]{Chapters/Figures/Images/sm_2.png}
+%     \caption{Pascal Stream Multiprocessor}
+% \end{figure}
+
+%\lipsum[1-5]

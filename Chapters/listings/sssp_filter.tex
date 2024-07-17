@@ -1,0 +1,27 @@
+\begin{listing}[t]
+\begin{minted}
+[
+frame=lines,
+linenos,
+fontsize=\scriptsize
+]
+{cpp}
+template <typename vertex_attributes>
+struct remove_completed_paths {
+    marrow_function int operator()(vertex<vertex_attributes>& v, int *visited, int *revisit) {
+
+        if(v.degree == 0)
+            return 0;
+
+        if(revisit[v.idx]) {
+            marrow::atomic::exch(&revisit[v.idx], 0);
+            marrow::atomic::exch(&visited[v.idx], 0);
+        }
+        return visited[v.idx] ? 0 : 1;
+    }
+};
+\end{minted}
+\center
+\caption{SSSP filter function.}
+\label{lst:sssp_filter}
+\end{listing}

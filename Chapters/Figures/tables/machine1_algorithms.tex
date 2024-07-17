@@ -1,0 +1,68 @@
+\definecolor{lightred}{RGB}{220, 180, 180}
+\definecolor{lightgreen}{RGB}{180, 220, 180}
+\definecolor{lightergreen}{RGB}{220, 255, 220}
+\definecolor{lightyellow}{RGB}{220, 220, 180}
+
+\begin{table}%[htbp]
+  \centering
+  \footnotesize
+    \begin{tabular}{|l|SSSSS|}
+    
+    \hline
+          & \text{delaunay\_n21} & \text{roadNet-CA} & \text{hollywood-2009} & \text{belgium\_osm} & \text{road\_usa} \\
+    
+    \hline
+    \hline
+
+    & \multicolumn{5}{c|}{SpMV} \\
+    \hline
+    marrow-graph & 3.85 & 1.63 & 46.79 & 1.03 & 30.18 \\
+    faimgraph & \text{-} & \cellcolor{lightred}1.82 & \text{-} & \cellcolor{lightred}1.31 & \text{-} \\
+    hornet & 2.66 & \cellcolor{lightred}1.99 & 40.21 & 1.01 & 16.36 \\
+    gunrock & 2.52 & 1.51 & 25.96 & \cellcolor{lightred}1.07 & 12.79 \\
+
+    \hline
+    
+    & \multicolumn{5}{c|}{BFS} \\
+    \hline
+    marrow-graph & 160.87 & 152.43 & 240.69 & 338.05 & 5283.12 \\
+    faimgraph & 84.60 & 70.73 & 88.89 & 134.12 & \text{-} \\
+    hornet & 39.27 & 38.78 & 21.10 & 95.66 & 470.18 \\
+    gunrock & 79.50 & 73.12 & 112.51 & 167.90 & 802.97 \\
+    ligra & 41.40 & 34.70 & 49.80 & 30.20 & 519.00 \\
+    
+    \hline
+
+    & \multicolumn{5}{c|}{SSSP} \\
+    \hline
+    marrow-graph & 167.13 & 156.49 & 252.31 & 337.76 & 5398.88 \\
+    hornet & 46.25 & 40.93 & 27.59 & 96.26 & 496.75 \\
+    gunrock & 85.52 & 78.49 & 108.98 & 188.52 & 880.10 \\
+    ligra & 70.20 & 65.40 & 201.00 & 40.80 & 689.00 \\
+
+    \hline
+
+    & \multicolumn{5}{c|}{PR} \\
+    \hline
+    marrow-graph & 18.49 & 27.82 & 815.60 & 14.84 & 123.09 \\
+    hornet & 6.75 & 20.70 & 130.31 & 9.88 & 50.34 \\
+    gunrock & 9.04 & 13.61 & 266.05 & 6.02 & 46.45 \\
+    ligra & \cellcolor{lightred}1280.00 & \cellcolor{lightred}1710.00 & \cellcolor{lightred}15700.00 & \cellcolor{lightred}1640.00 & \cellcolor{lightred}32100.00 \\
+
+    \hline
+
+    & \multicolumn{5}{c|}{TC} \\
+    \hline
+    marrow-graph & 58.78 & 7.85 & 12915.90 & 4.24 & 136.00 \\
+    faimgraph & 7.03 & 2.05 & \text{-} & 1.24 & \text{-} \\
+    gunrock & 10.58 & 2.79 & \text{-} & 1.66 & 28.92 \\
+    ligra & \cellcolor{lightred}128.00 & \cellcolor{lightred}59.40 & \cellcolor{lightred}52600.00 & \cellcolor{lightred}46.10 & \cellcolor{lightred}782.00 \\
+
+    \hline
+    
+    \end{tabular}%
+  \caption{Machine 1: Algorithmic execution times in milliseconds (red: slower than marrow-graph).}
+
+  \label{tab:m1_algo}%
+\end{table}%
+

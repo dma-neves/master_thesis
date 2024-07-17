@@ -1,0 +1,65 @@
+\begin{listing}[H]
+\begin{minted}
+[
+frame=lines,
+linenos,
+fontsize=\scriptsize
+]
+{cpp}
+struct graph_bal_frontierless_advance_fun : function_with_coordinates</*...*/> {
+
+    template<typename vertex_attributes, 
+      typename edge_attributes, typename compute_fun, typename... compute_args>
+    marrow_function
+    void operator()(coordinate_t* coordinate,
+                    idx_t *frontier,
+                    vertex<vertex_attributes> *vertices,
+                    edge<edge_attributes> *edges,
+                    std::size_t block_size,
+                    idx_t *block_links,
+                    std::size_t frontier_size,
+                    compute_fun &compute,
+                    compute_args &... comp_args) {
+
+        using Vertex = vertex<vertex_attributes>;
+        using Edge = edge<edge_attributes>;
+        using Graph = graph_bal_t<vertex_attributes, edge_attributes>;
+
+        const std::size_t tid = coordinate[0];
+        idx_t vertex_idx = frontier[tid];
+        Vertex &vertex = vertices[vertex_idx];
+
+        int neighbour_n = 0;
+        for (idx_t block_idx = vertex.adjacency_list;
+             block_idx != -1 && neighbour_n < vertex.degree; block_idx = block_links[block_idx]) {
+
+            for (std::size_t block_offset = 0;
+                 block_offset < block_size && neighbour_n < vertex.degree; block_offset++) {
+
+                Edge _edge = edges[block_idx * block_size + block_offset];
+
+                if constexpr (std::is_invocable<decltype(compute), 
+                  Graph &, Vertex &, Vertex &, Edge &, compute_args &...>::value) {
+
+                    Graph graph = {
+                            .block_size = block_size,
+                            .vertices = vertices,
+                            .edges = edges,
+                            .block_links = block_links
+                    };
+
+                    compute(graph, vertex, vertices[_edge.dst], _edge, comp_args...);
+                } else {
+                    compute(vertex, vertices[_edge.dst], _edge, comp_args...);
+                }
+
+                neighbour_n++;
+            }
+        }
+    }
+};
+\end{minted}
+\center
+\caption{Graph Bal Unbalanced Frontierless Advance Marrow Function.}
+\label{lst:graph_bal_unbalanced_frontierless_advance_marrow_function}
+\end{listing}

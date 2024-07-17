@@ -1,0 +1,70 @@
+\begin{algorithm}[t]
+    \small
+    \SetAlgoLined
+    \SetKwData{graph}{graph}
+    \SetKwData{src}{src}
+    \SetKwData{dst}{dst}
+    \SetKwData{srcvertex}{src\_vertex}
+    \SetKwData{blockidx}{block\_idx}
+    \SetKwData{offset}{offset}
+    \SetKwData{found}{found}
+    \SetKwData{lastedgeoffset}{last\_edge\_offset}
+    \SetKwData{lastedge}{last\_edge}
+    \SetKwData{e}{e}
+    \SetKwData{deletedblocks}{deleted\_blocks}
+    \SetKwData{blocklinks}{block\_links}
+    \SetKwData{blocklinksreversed}{block\_links\_reversed}
+    \SetKwData{nedges}{nedges}
+    \SetKwData{prevadjacencylistend}{prev\_adjacency\_list\_end}
+    \SetKwFunction{modulo}{modulo}
+    \SetKwFunction{push}{push}
+    \SetKwFunction{pop}{pop}
+    \SetKwFunction{findedge}{find\_edge}
+
+    \KwIn{idx\_t \src, idx\_t \dst}
+    \KwOut{bool}
+
+    \BlankLine
+    \srcvertex $\leftarrow$ \graph.vertices[\src]\;
+    \If{\srcvertex.degree $==$ 0}{
+        \KwRet false\;
+    }
+    \BlankLine
+
+    \blockidx, \offset, \found $\leftarrow$ \findedge(\src, \dst)\;
+    \If{$\neg$\found}{
+        \KwRet false\;
+    }
+
+    \BlankLine
+    \lastedgeoffset $\leftarrow$ \modulo(\srcvertex.degree - 1, \graph.block\_size)\;
+    \lastedge $\leftarrow$ \graph.blocks[\srcvertex.adjacency\_list\_end][\lastedgeoffset]\;
+    \If{\dst $\neq$ \lastedge.dst}{
+        // Copy last edge to the slot of edge we want to delete\;
+        \graph.blocks[\blockidx][\offset] $\leftarrow$ \lastedge\;
+    }
+    \If{\lastedgeoffset $==$ 0}{
+        // Delete last block\;
+        \push(\graph.deleted\_blocks, \srcvertex.adjacency\_list\_end)\;
+        \If{\srcvertex.adjacency\_list\_end $==$ \srcvertex.adjacency\_list}{
+            // Adjacency list only has a single block that needs to be removed\;
+            \blocklinks[\srcvertex.adjacency\_list] $\leftarrow$ -1\;
+            \blocklinksreversed[\srcvertex.adjacency\_list\_end] $\leftarrow$ -1\;
+            \srcvertex.adjacency\_list $\leftarrow$ -1\;
+            \srcvertex.adjacency\_list\_end $\leftarrow$ -1\;
+        }
+        \Else{
+            \prevadjacencylistend $\leftarrow$ \srcvertex.adjacency\_list\_end\;
+            \srcvertex.adjacency\_list\_end $\leftarrow$ \blocklinksreversed[\srcvertex.adjacency\_list\_end]\;
+            \blocklinksreversed[\prevadjacencylistend] $\leftarrow$ -1\;
+            \blocklinks[\srcvertex.adjacency\_list\_end] $\leftarrow$ -1\;
+        }
+    }
+
+    \nedges $\leftarrow$ \nedges $-1$\;
+    \srcvertex.degree $\leftarrow$ \srcvertex.degree $-1$\;
+    \KwRet true\;
+
+    \caption{Remove Edge}
+    \label{alg:remove_edge}
+\end{algorithm}

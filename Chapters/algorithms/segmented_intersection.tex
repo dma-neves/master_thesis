@@ -1,0 +1,67 @@
+\begin{algorithm}[H]
+    \small
+    \SetAlgoLined
+    \SetKwData{nintersections}{nintersections}
+    \SetKwData{degreea}{degree\_a}
+    \SetKwData{degreeb}{degree\_b}
+    \SetKwData{blockindexa}{block\_index\_a}
+    \SetKwData{blockindexb}{block\_index\_b}
+    \SetKwData{offseta}{offset\_a}
+    \SetKwData{offsetb}{offset\_b}
+    \SetKwData{indexa}{index\_a}
+    \SetKwData{indexb}{index\_b}
+    \SetKwData{edgesindexa}{edges\_index\_a}
+    \SetKwData{edgesindexb}{edges\_index\_b}
+    \SetKwData{intersectionargs}{int\_args}
+    \SetKwData{graph}{graph}
+    \SetKwFunction{onintersection}{on\_intersrction}
+
+    \KwIn{graph\_bal\_t<> graph, vertex<> vertex\_a, vertex<> vertex\_b, int\_fun on\_intersection, int\_args... int\_args}
+    \KwOut{int}
+    
+    \BlankLine
+    $\degreea \leftarrow \graph.vertices[vertex\_a.idx].degree$\;
+    $\degreeb \leftarrow \graph.vertices[vertex\_b.idx].degree$\;
+    $\blockindexa \leftarrow \graph.vertices[vertex\_a.idx].adjacency\_list$\;
+    $\blockindexb \leftarrow \graph.vertices[vertex\_b.idx].adjacency\_list$\;
+    $\nintersections, \offseta, \offsetb, \indexa, \indexb \leftarrow 0$\;
+
+    \BlankLine
+    \While{$(\indexa < \degreea \land \indexb < \degreeb)$}{
+        $\edgesindexa \leftarrow \blockindexa \times \graph.block\_size + \offseta$\;
+        $\edgesindexb \leftarrow \blockindexb \times \graph.block\_size + \offsetb$\;
+        $neighbor\_a \leftarrow \graph.vertices[\graph.edges[\edgesindexa].dst]$\;
+        $neighbor\_b \leftarrow \graph.vertices[\graph.edges[\edgesindexb].dst]$\;
+        
+        \BlankLine
+        \If{$(neighbor\_a.idx == neighbor\_b.idx)$}{
+            $nintersections \leftarrow nintersections + 1$\;
+            \onintersection{$\text{vertex\_a}$, $\text{vertex\_b}$, $\text{neighbor\_a}$, $\intersectionargs \ldots$}\;
+            $\indexa \leftarrow \indexa + 1$\;
+            $\offseta \leftarrow \offseta + 1$\;
+            $\indexb \leftarrow \indexb + 1$\;
+            $\offsetb \leftarrow \offsetb + 1$\;
+        }
+        \ElseIf{$(neighbor\_a.idx > neighbor\_b.idx)$}{
+            $\indexb \leftarrow \indexb + 1$\;
+            $\offsetb \leftarrow \offsetb + 1$\;
+        }
+        \Else{
+            $\indexa \leftarrow \indexa + 1$\;
+            $\offseta \leftarrow \offseta + 1$\;
+        }
+        
+        \BlankLine
+        \If{$(\offseta \geq \graph.block\_size)$}{
+            $\offseta \leftarrow 0$\;
+            $\blockindexa \leftarrow \graph.block\_links[\blockindexa]$\;
+        }
+        \If{$(\offsetb \geq \graph.block\_size)$}{
+            $\offsetb \leftarrow 0$\;
+            $\blockindexb \leftarrow \graph.block\_links[\blockindexb]$\;
+        }
+        \KwRet \nintersections
+    }
+    
+    \caption{Segmented Intersection}
+\end{algorithm}
